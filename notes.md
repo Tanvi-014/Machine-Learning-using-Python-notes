@@ -1,5 +1,6 @@
 NumPy : Python library For fast numerical calculations
 Pandas : Python library for working with structured data
+Scikit-learn: (aka sklearn) is a Python library for machine learning.
 
 
 ## Basic Data Handling Functions
@@ -24,4 +25,12 @@ Pandas : Python library for working with structured data
 > *“Count how many missing values are in each column.”*
 > *Because Pandas’ default is: operate column-wise.*
 
-7. 
+7. preprocessing
+>preparing data before ML
+>Before a model learns, we:
+- clean data
+- fix missing values
+- scale numbers
+
+8. MinMaxScaler: data preprocessing technique that rescales numerical features to a fixed range, typically [0, 1]
+9. StandardScaler: Center numbers around 0 and spread them evenly
