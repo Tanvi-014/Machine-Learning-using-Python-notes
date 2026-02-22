@@ -1,6 +1,8 @@
 NumPy : Python library For fast numerical calculations
 Pandas : Python library for working with structured data
 Scikit-learn: (aka sklearn) is a Python library for machine learning.
+Seaborn : Python library for statistical data visualization built on top of matplotlib
+Statsmodels : Python library for statistical modeling and hypothesis testing (regression, p-values, inference)
 
 
 ## Basic Data Handling Functions
