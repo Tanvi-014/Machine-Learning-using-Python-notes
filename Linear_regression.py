@@ -57,6 +57,47 @@ sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f", linewidth=0.5)
 #Near white → weak relationship
 
 corr["HousePrice"].abs().sort_values(ascending=False)
-#Doesn't ca
+#Doesn't care about positive or negative only checks strength of relationship
 
+medinc = housing_df['MedInc']
+##because medinc has greatest strength
+houseprice = housing_df['HousePrice']
+
+pyplot.figure(figsize=(8,6))
+pyplot.scatter(medinc,houseprice,alpha=0.5,color='blue')
+pyplot.title('Scatter plot of medinc vs houseprice')
+pyplot.xlabel('medinc')
+pyplot.ylabel('houseprice')
+pyplot.grid(True)
 pyplot.show()
+
+#Variance inflation factor
+
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+housing_df_vif = housing_df.drop('HousePrice',axis=1)
+#removing the target variable because we calculate vif based on independent variables
+#axis=1 : column 
+
+housing_df_vif = housing_df_vif.apply(pd.to_numeric,errors='coerce')
+
+vif_data = pd.DataFrame() #make it a table
+vif_data["Feature"] = housing_df_vif.columns
+vif_data["VIF"] = [variance_inflation_factor(housing_df_vif.values,i) for i in range (len(housing_df_vif.columns))]
+#take feature number i and check how much the other features can explain it.
+print(vif_data)
+
+#VIF is not good for regression so we attempt to remove latitude and longitude columns as a result of the above vif test
+
+housing_df = housing_df.drop(['Latitude', 'Longitude'], axis=1)
+
+cols_to_convert = ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']
+housing_df[cols_to_convert] = housing_df[cols_to_convert].apply(pd.to_numeric, errors='coerce')
+housing_df['HousePrice'] = pd.to_numeric(housing_df['HousePrice'], errors='coerce')
+#Regression math needs numbers only.
+
+x = sm.add_constant(housing_df.drop('HousePrice', axis=1))
+y = housing_df['HousePrice']
+
+model = sm.OLS(y,x).fit()
+#Ordinary Least Squares: Use X to predict y.
