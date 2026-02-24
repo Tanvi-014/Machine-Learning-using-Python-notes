@@ -38,3 +38,9 @@ Statsmodels : Python library for statistical modeling and hypothesis testing (re
 
 10. sns.pairplot(housing_df, height=3)
 > Every variable gets plotted against every other variable
+
+11. .apply(pd.to_numeric, errors='coerce')
+> .apply(): apply a function to each column
+> pd.to_numeric → convert values to numbers
+> errors='coerce' → if conversion fails, replace with NaN (Not a Number)
+
