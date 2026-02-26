@@ -130,3 +130,20 @@ from sklearn.metrics import mean_squared_error, r2_score
 predictions = model.predict(x)
 
 print("R square score:", r2_score(y, predictions))
+print("R square score:", r2_score(y, predictions))
+
+import matplotlib.pyplot as plt
+
+def plot_boxplots(df):
+    fig,axes = plt.subplots(1, len(df.columns), figsize=(20,5))
+    
+    for i, column_name in enumerate(df.columns):
+        df.boxplot(column=column_name, ax=axes[i])
+        axes[i].set_title(column_name)
+    
+    plt.show
+
+plot_boxplots(housing_df)
+
+#We see outliers in some features and need to correct them for accuracy of our model
+
