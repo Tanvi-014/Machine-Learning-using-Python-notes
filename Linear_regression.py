@@ -101,3 +101,32 @@ y = housing_df['HousePrice']
 
 model = sm.OLS(y,x).fit()
 #Ordinary Least Squares: Use X to predict y.
+#least error path (bw actual and prediction)
+
+residuals = model.resid
+#Residual = Actual value − Predicted value
+
+pyplot.figure(figsize=(10,5))
+pyplot.subplot(1, 2, 1) #1st
+sns.histplot(residuals, kde=True)
+#it groups nearby numbers together and shows how many fall in each group.
+pyplot.title('Residuals distribution')
+
+pyplot.subplot(1, 2, 2) #2nd
+pyplot.scatter(model.predict(x), residuals)
+pyplot.axhline(y=0, color='red', linestyle='--')
+pyplot.title('Residuals vs Predicted')
+pyplot.ylabel('Residuals')
+pyplot.show()
+
+print("Model coefficients: \n", model.params)
+
+#Positive → model predicted too low
+#Negative → model predicted too high
+#Close to 0 → good prediction
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+predictions = model.predict(x)
+
+print("R square score:", r2_score(y, predictions))
