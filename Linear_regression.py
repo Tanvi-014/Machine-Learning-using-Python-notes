@@ -147,3 +147,24 @@ plot_boxplots(housing_df)
 
 #We see outliers in some features and need to correct them for accuracy of our model
 
+def remove_outliers(df):
+    df_no_outliers = df.copy()
+
+    for column_name in df.columns:
+        Q1 = df[column_name].quantile(0.25)
+        Q3 = df[column_name].quantile(0.75)
+
+        IQR = Q3 - Q1
+
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+
+        df_no_outliers[column_name] = df_no_outliers[column_name].apply(lambda x: lower_bound if x < lower_bound
+                                                                        else upper_bound if x > upper_bound else x)
+        return df_no_outliers
+    
+    housing_df_new = remove_outliers(housing_df)
+
+    plot_boxplots(housing_df_new)
+
+    
