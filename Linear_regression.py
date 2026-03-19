@@ -163,8 +163,39 @@ def remove_outliers(df):
                                                                         else upper_bound if x > upper_bound else x)
         return df_no_outliers
     
-    housing_df_new = remove_outliers(housing_df)
+housing_df_new = remove_outliers(housing_df)
 
-    plot_boxplots(housing_df_new)
+plot_boxplots(housing_df_new)
 
-    
+cols_to_convert = ['MedInc', 'HouseAge', 'AveBedrms', 'population', 'AveOccup']
+housing_df_new[cols_to_convert] = housing_df_new[cols_to_convert].apply(pd.to_numeric, errors='coerce')
+housing_df_new['HousePrice'] = pd.to_numeric(housing_df_new['HousePrice'], errors='coerce')
+
+X=sm.add_constant(housing_df_new.drop('HousePrice', axis=1))
+y=housing_df_new['HousePrice']
+
+model=sm.OLS(y, X).fit()
+
+residuals=model.resid
+
+plt.figure(figsize=(10,5))
+plt.subplot(1,2,1)
+sns.hisplot(residuals, kde=True)
+plt.title('Residuals distribution')
+
+plt.subplot(1,2,2)
+plt.scatter(model.predict(X), residuals)
+plt.axhline(y=0, color='red', linestyle='--')
+plt.title('Residuals vs Predicted')
+plt.xlabel('Predicted Values')
+plt.ylabel('Residuals')
+plt.show()
+
+print("Model coefficients:\n", model.params)
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+predictions = model.predict(X)
+
+print("R square score:", r2_score(y, predictions))
+print("MSE:", mean_squared_error(y, predictions))
