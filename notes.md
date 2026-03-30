@@ -44,3 +44,4 @@ Statsmodels : Python library for statistical modeling and hypothesis testing (re
 > pd.to_numeric → convert values to numbers
 > errors='coerce' → if conversion fails, replace with NaN (Not a Number)
 
+12. An outlier is a data point that is very different from the rest of the data.
