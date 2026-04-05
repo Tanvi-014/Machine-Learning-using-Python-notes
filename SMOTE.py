@@ -50,7 +50,7 @@ plt.show()
 feature_df = df.drop(['cuisine', 'Unnamed: 0', 'rice', 'garlic', 'ginger'], axis=1)
 ## we are trying to predict cuisine from ingredients so remove the common ones 
 ## we also remove the cuisine column so the model can't peak at the answer
-labels_df =  df.cuisine
+labels_df = df.cuisine
 feature_df.head()
 
 ##smote is used to balance an unbalanced data set
@@ -67,7 +67,7 @@ print(f'old label count:  {labels_df.value_counts()}')
 
 X_train, X_test, y_train, y_test = train_test_split(transform_feature_df, transformed_label_df, test_size=0.3)
 
-lr=LogisticRegression(multi_class='ovr', solver='liblinear')
+lr=LogisticRegression(solver='lbfgs', max_iter=1000)
 model=lr.fit(X_train, np.ravel(y_train))
 
 accuracy = model.score(X_test, y_test)
